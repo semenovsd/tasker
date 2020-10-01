@@ -116,15 +116,6 @@ GitHub.sublime-settings
 !.vscode/extensions.json
 .history
 
-# pgadmin
-/pgadmin
-
-# postgres
-/pgdata
-
 # SSL Serts
 *.pem
 *.key
-
-# my bash script
-restart.bash
