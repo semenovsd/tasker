@@ -26,3 +26,6 @@ sudo usermod -aG docker "${USER}"
 
 # Activate the changes to groups
 newgrp docker
+
+# Create folders for services
+mkdir postgres pgadmin .ssl

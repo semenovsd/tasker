@@ -53,7 +53,16 @@ services:
       - db
 
   nginx:
-    build: ./nginx
+    container_name: nginx
+    image: nginx:1.19.2-alpine
+    volumes:
+      - ./nginx:/etc/nginx/templates
+    environment:
+#      - NGINX_HOST=foobar.com
+      - APP_PORT=$WEBAPP_PORT
+      - SSL_CERT=$SSL_CERT
+      - SSL_PRIV=$SSL_PRIV
+      - NGINX_PORT=$NGINX_CONTAINER_PORT
     ports:
       - $NGINX_HOST_PORT:$NGINX_CONTAINER_PORT
     networks:
