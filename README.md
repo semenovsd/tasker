@@ -1,15 +1,19 @@
 # How to deploy:
 
 1. Clone git project:
+
 $ git clone git@github.com:semenovsd/taskmanager.git
 
 2. Create ssl cert:
+
 $ cd .ssl/
+
 $ openssl req -newkey rsa:2048 -sha256 -nodes -keyout .ssh/url_private.key -x509 -days 365 -out .ssh/url_cert.pem
 
 3. Create .env file by the example.env in base tasker folder
 
 4. Run bash script for install and settings Docker:
+
 $ sudo bash docker_install.sh
 
 5. Build up docker containers:
