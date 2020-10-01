@@ -56,17 +56,20 @@ services:
     container_name: nginx
     image: nginx:1.19.2-alpine
     volumes:
-      - ./nginx:/etc/nginx/templates
+#      - /$APP_BASE_DIR/staticfiles:/usr/share/nginx/html/static/:ro
+      - ./$SSL_CERT:/etc/ssl/url_cert.pem:ro
+      - ./$SSL_PRIV:/etc/ssl/url_private.key:ro
+      - ./nginx/templates:/etc/nginx/templates
     environment:
-#      - NGINX_HOST=foobar.com
-      - APP_PORT=$WEBAPP_PORT
-      - SSL_CERT=$SSL_CERT
-      - SSL_PRIV=$SSL_PRIV
-      - NGINX_PORT=$NGINX_CONTAINER_PORT
+      - SERVER_NAME=$SERVER_NAME
+      - WEBAPP_PORT=$WEBAPP_PORT
+      - NGINX_HTTP_PORT=$NGINX_HTTP_PORT
     ports:
-      - $NGINX_HOST_PORT:$NGINX_CONTAINER_PORT
+      - $SERVER_HTTP_PORT:$NGINX_HTTP_PORT
+      - $SERVER_HTTPS_PORT:$NGINX_HTTPS_PORT
     networks:
       - tasker_backend
+    restart: unless-stopped
     depends_on:
       - web
 
