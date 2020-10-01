@@ -1,0 +1,65 @@
+version: '3.7'
+
+services:
+
+  db:
+    container_name: db
+    image: postgres:13.0
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+    networks:
+      - tasker_backend
+    restart: always
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.26
+    environment:
+      PGADMIN_DEFAULT_EMAIL: $PGADMIN_DEFAULT_EMAIL
+      PGADMIN_DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
+      PGADMIN_ENABLE_TLS: "True"
+    volumes:
+      #      - ./pgadmin/tmp/servers.json:/pgadmin4/servers.json
+      #      - ./pgadmin/private/var/lib/pgadmin:/var/lib/pgadmin
+      - ./$SSL_CERT:/certs/server.cert:ro
+      - ./$SSL_PRIV:/certs/server.key:ro
+    ports:
+      - $PGADMIN_HOST_PORT:$PGADMIN_CONTAINER_PORT
+    networks:
+      - tasker_backend
+    restart: always
+    depends_on:
+      - db
+
+  web:
+    container_name: web
+    build:
+      context: ./$APP_BASE_DIR
+      args:
+        APP_BASE_DIR: $APP_BASE_DIR
+    command: gunicorn tasker.wsgi:application --bind $WEBAPP_HOST:$WEBAPP_PORT
+    env_file:
+      - .env
+    expose:
+      - $WEBAPP_PORT
+    networks:
+      - tasker_backend
+    restart: always
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - $NGINX_HOST_PORT:$NGINX_CONTAINER_PORT
+    networks:
+      - tasker_backend
+    depends_on:
+      - web
+
+networks:
+  tasker_backend:
