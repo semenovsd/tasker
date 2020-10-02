@@ -2,19 +2,19 @@
 
 1. Clone git project:
 
-$ git clone git@github.com:semenovsd/taskmanager.git
+$ git clone git@github.com:semenovsd/tasker.git
 
 2. Create ssl cert:
 
-$ cd .ssl/
-
+$ cd /tasker/
+$ mkdir .ssl
 $ openssl req -newkey rsa:2048 -sha256 -nodes -keyout .ssl/url_private.key -x509 -days 365 -out .ssl/url_cert.pem
 
 3. Create .env file by the example.env in base tasker folder
 
 4. Run bash script for install and settings Docker:
 
-$ sudo bash docker_install.sh
+$ sudo bash entrypoint.sh
 
 5. Build up docker containers:
 $ docker-compose up --build

@@ -10,5 +10,3 @@ COPY requirements.txt .
 RUN python -m pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
-
-RUN python manage.py makemigrations && python manage.py migrate
