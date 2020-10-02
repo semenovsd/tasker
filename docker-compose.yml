@@ -25,8 +25,8 @@ services:
     volumes:
       #      - ./pgadmin/tmp/servers.json:/pgadmin4/servers.json
       #      - ./pgadmin/private/var/lib/pgadmin:/var/lib/pgadmin
-      - ./$SSL_CERT:/certs/server.cert:ro
-      - ./$SSL_PRIV:/certs/server.key:ro
+      - $SSL_CERT:/certs/server.cert:ro
+      - $SSL_PRIV:/certs/server.key:ro
     ports:
       - $PGADMIN_HOST_PORT:$PGADMIN_CONTAINER_PORT
     networks:
@@ -59,8 +59,8 @@ services:
     image: nginx:1.19.2-alpine
     volumes:
       - ./$APP_BASE_DIR/staticfiles:/usr/share/nginx/html/staticfiles/:ro
-      - ./$SSL_CERT:/etc/ssl/url_cert.pem:ro
-      - ./$SSL_PRIV:/etc/ssl/url_private.key:ro
+      - $SSL_CERT:/etc/ssl/url_cert.pem:ro
+      - $SSL_PRIV:/etc/ssl/url_private.key:ro
       - ./nginx/templates:/etc/nginx/templates
     environment:
       - SERVER_NAME=$SERVER_NAME
