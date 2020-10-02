@@ -26,3 +26,8 @@ sudo usermod -aG docker "${USER}"
 
 # Activate the changes to groups
 newgrp docker
+
+# Change permissions
+sudo chown -R 5050:5050 /pgadmin/
+sudo chown -R docker /postgres/
+sudo chmod -R +r docker /.ssl/
