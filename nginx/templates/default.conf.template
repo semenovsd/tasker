@@ -38,6 +38,14 @@ server {
         expires 30d;
     }
 
+    location /pgadmin4/ {
+        proxy_pass https://pgadmin/;
+        proxy_set_header X-Script-Name /pgadmin4;
+        proxy_set_header X-Scheme $scheme;
+        proxy_set_header Host $server_name;
+        proxy_redirect off;
+    }
+
     location / {
         proxy_pass http://djangoproject/;
         proxy_set_header REMOTE_ADDR $remote_addr;
@@ -46,11 +54,4 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-    location /pgadmin4/ {
-        proxy_pass http://pgadmin/;
-        proxy_set_header X-Script-Name /pgadmin4;
-        proxy_set_header X-Scheme $scheme;
-        proxy_set_header Host $host;
-        proxy_redirect off;
-    }
 }

@@ -39,9 +39,7 @@ services:
       context: ./$APP_BASE_DIR
       args:
         APP_BASE_DIR: $APP_BASE_DIR
-    command: [ "python manage.py makemigrations",
-               "python manage.py migrate",
-               "gunicorn djangoproject.wsgi:application --bind $WEBAPP_HOST:$WEBAPP_PORT" ]
+    command: gunicorn djangoproject.wsgi:application --bind $WEBAPP_HOST:$WEBAPP_PORT
     volumes:
       - ./$APP_BASE_DIR/staticfiles:/$APP_BASE_DIR/staticfiles/
     env_file:
