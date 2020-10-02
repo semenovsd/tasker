@@ -8,7 +8,7 @@ $ git clone git@github.com:semenovsd/taskmanager.git
 
 $ cd .ssl/
 
-$ openssl req -newkey rsa:2048 -sha256 -nodes -keyout .ssh/url_private.key -x509 -days 365 -out .ssh/url_cert.pem
+$ openssl req -newkey rsa:2048 -sha256 -nodes -keyout .ssl/url_private.key -x509 -days 365 -out .ssl/url_cert.pem
 
 3. Create .env file by the example.env in base tasker folder
 

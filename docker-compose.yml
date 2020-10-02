@@ -41,7 +41,8 @@ services:
       context: ./$APP_BASE_DIR
       args:
         APP_BASE_DIR: $APP_BASE_DIR
-    command: gunicorn tasker.wsgi:application --bind $WEBAPP_HOST:$WEBAPP_PORT
+#    command: gunicorn taskmanager.wsgi:application --bind $WEBAPP_HOST:$WEBAPP_PORT
+    command: python manage.py runserver $WEBAPP_HOST:$WEBAPP_PORT
     volumes:
           - ./$APP_BASE_DIR/staticfiles:/$APP_BASE_DIR/staticfiles/
     env_file:

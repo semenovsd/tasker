@@ -1,14 +1,14 @@
 # base image for django project
-FROM python:3.8.6-alpine
+FROM python:3.8.6
 
 ARG APP_BASE_DIR
 
 WORKDIR /APP_BASE_DIR
 
-COPY requirements.txt /APP_BASE_DIR
+COPY requirements.txt .
 
 RUN python -m pip install --upgrade pip && pip install -r requirements.txt
 
-COPY ../djangoproject /APP_BASE_DIR
+COPY . .
 
 RUN python manage.py makemigrations && python manage.py migrate
