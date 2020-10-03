@@ -3,7 +3,7 @@
 
 # Download & Install % Start Docker
 sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
@@ -27,15 +27,7 @@ mkdir "${SSL_DIR}"
 openssl req -newkey rsa:2048 -sha256 -nodes -keyout "${SSL_DIR}${SSL_PRIV}" -x509 -days 365 -out "${SSL_DIR}${SSL_CERT}" \
 -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=${DOMAIN_NAME_OR_IP}"
 
-#sudo chmod 600 -R ./.ssl/
-sudo chmod -R +r ./.ssl/
-#sudo chmod g+r -R .ssl/
-
-#$ sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
-#$ sudo chmod g+rwx "$HOME/.docker" -R
+# Set permissions
+sudo chmod -R +r "${SSL_DIR}"
 
 ## Run docker-compose
-
-#exec "$@"
-#exec "exit"
-exit 0

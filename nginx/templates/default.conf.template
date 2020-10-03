@@ -43,8 +43,8 @@ server {
         expires 30d;
     }
 
-    location /pgadmin4 {
-        proxy_pass http://pgadmin;
+    location /pgadmin4/ {
+        proxy_pass http://pgadmin/;  # TODO uri should be ""
         proxy_redirect off;
         proxy_set_header Host $host;
         proxy_set_header X-Script-Name /pgadmin4;

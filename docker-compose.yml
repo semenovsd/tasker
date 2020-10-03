@@ -21,9 +21,9 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: $PGADMIN_DEFAULT_EMAIL
       PGADMIN_DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
-#      PGADMIN_ENABLE_TLS: "True"
-#      PGADMIN_LISTEN_PORT: $PGADMIN_PORT
-    volumes:
+      PGADMIN_ENABLE_TLS: "True"
+      PGADMIN_LISTEN_PORT: $PGADMIN_PORT
+#    volumes:
 #      - ./pgadmin/tmp/servers.json:/pgadmin4/servers.json
 #      - ./pgadmin/private/var/lib/pgadmin:/var/lib/pgadmin
 #      - $SSL_DIR$SSL_CERT:/certs/server.cert:ro
