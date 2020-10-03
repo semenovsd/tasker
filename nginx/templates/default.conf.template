@@ -44,7 +44,7 @@ server {
     }
 
     location /pgadmin4/ {
-        proxy_pass http://pgadmin/;  # TODO uri should be ""
+        proxy_pass http://pgadmin/;
         proxy_redirect off;
         proxy_set_header Host $host;
         proxy_set_header X-Script-Name /pgadmin4;

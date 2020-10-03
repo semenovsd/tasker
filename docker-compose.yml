@@ -21,13 +21,10 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: $PGADMIN_DEFAULT_EMAIL
       PGADMIN_DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
-      PGADMIN_ENABLE_TLS: "True"
       PGADMIN_LISTEN_PORT: $PGADMIN_PORT
 #    volumes:
 #      - ./pgadmin/tmp/servers.json:/pgadmin4/servers.json
 #      - ./pgadmin/private/var/lib/pgadmin:/var/lib/pgadmin
-#      - $SSL_DIR$SSL_CERT:/certs/server.cert:ro
-#      - $SSL_DIR$SSL_PRIV:/certs/server.key:ro
     expose:
       - $PGADMIN_PORT
     networks:
@@ -44,7 +41,8 @@ services:
         DJANGO_BASE_DIR: $DJANGO_BASE_DIR
     command: gunicorn -k uvicorn.workers.UvicornWorker djangoproject.asgi:application --bind $WEBAPP_HOST:$WEBAPP_PORT
     volumes:
-      - ./$DJANGO_BASE_DIR/staticfiles:/$DJANGO_BASE_DIR/staticfiles/
+      - ./$DJANGO_BASE_DIR$STATIC_FILES:/$DJANGO_BASE_DIR$STATIC_FILES
+      - ./$DJANGO_BASE_DIR$MEDIA_FILES:/$DJANGO_BASE_DIR$MEDIA_FILES
     env_file:
       - .env
     expose:
@@ -59,8 +57,8 @@ services:
     container_name: nginx
     image: nginx:1.19.2-alpine
     volumes:
-      - ./$DJANGO_BASE_DIR/staticfiles:/usr/share/nginx/html/staticfiles/:ro
-      - ./$DJANGO_BASE_DIR/mediafiles:/usr/share/nginx/html/mediafiles/:ro
+      - ./$DJANGO_BASE_DIR$STATIC_FILES:/usr/share/nginx/html/staticfiles/:ro
+      - ./$DJANGO_BASE_DIR$MEDIA_FILES:/usr/share/nginx/html/mediafiles/:ro
       - ./nginx/templates:/etc/nginx/templates:ro
       - $SSL_DIR$SSL_CERT:/etc/ssl/url_cert.pem:ro
       - $SSL_DIR$SSL_PRIV:/etc/ssl/url_private.key:ro
