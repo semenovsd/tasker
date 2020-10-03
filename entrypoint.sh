@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 #Installation for 20.04
 
-# download Docker
+# Download & Install % Start Docker
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-# Update repository
 sudo apt-get update
-
-# Install Dpcker and Docker-compose
-sudo apt-get install -y docker-ce
-sudo apt-get install docker-compose -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
+sudo systemctl start docker
 
 # Enable userns-remap on the daemon
 sudo echo "{
@@ -18,14 +16,26 @@ sudo echo "{
 }" >/etc/docker/daemon.json
 sudo systemctl restart docker
 
-# add group docker for run docker commands without sudo
+# Add group docker
 sudo groupadd docker
-
-# Add current user to the docker group.
 sudo usermod -aG docker "${USER}"
+sudo newgrp docker
 
-# Activate the changes to groups
-newgrp docker
+# Create ssl certificate
+. .env
+mkdir "${SSL_DIR}"
+openssl req -newkey rsa:2048 -sha256 -nodes -keyout "${SSL_DIR}${SSL_PRIV}" -x509 -days 365 -out "${SSL_DIR}${SSL_CERT}" \
+-subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=${DOMAIN_NAME_OR_IP}"
 
-# Change permissions
+#sudo chmod 600 -R ./.ssl/
 sudo chmod -R +r ./.ssl/
+#sudo chmod g+r -R .ssl/
+
+#$ sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+#$ sudo chmod g+rwx "$HOME/.docker" -R
+
+## Run docker-compose
+
+#exec "$@"
+#exec "exit"
+exit 0

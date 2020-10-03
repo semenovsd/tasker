@@ -4,23 +4,17 @@
 
 $ git clone git@github.com:semenovsd/tasker.git
 
-2. Create ssl cert:
+2. Create .env file by the example.env in base tasker folder
 
-$ cd /tasker/
-$ mkdir .ssl
-$ openssl req -newkey rsa:2048 -sha256 -nodes -keyout .ssl/url_private.key -x509 -days 365 -out .ssl/url_cert.pem
-
-3. Create .env file by the example.env in base tasker folder
-
-4. Run bash script for install and settings Docker:
+3. Run bash script for install and settings Docker:
 
 $ sudo bash entrypoint.sh
 
-5. Build up docker containers:
+4. Build up docker containers:
 $ docker-compose up --build
 $ docker ps
-$ docker exec -it <tasker_web container ID> python manage.py makemigrations
-$ docker exec -it <tasker_web container ID> python manage.py migrate
+$ docker exec -it <tasker_web container ID> python manage.py makemigrations --noinput
+$ docker exec -it <tasker_web container ID> python manage.py migrate --noinput
 
 Done!
 
