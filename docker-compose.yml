@@ -55,7 +55,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:1.19.2-alpine
+    image: nginx:1.19.2
     volumes:
       - ./$DJANGO_BASE_DIR$STATIC_FILES:/usr/share/nginx/html/staticfiles/:ro
       - ./$DJANGO_BASE_DIR$MEDIA_FILES:/usr/share/nginx/html/mediafiles/:ro

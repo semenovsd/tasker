@@ -3,39 +3,31 @@ FROM python:3.8.6
 
 ARG DJANGO_BASE_DIR
 
-## create the app user
-#RUN addgroup -S app && adduser -S app -G app
-#RUN mkdir $APP_HOME
-#RUN mkdir $APP_HOME/staticfiles
-#RUN mkdir $APP_HOME/mediafiles
-#. .env
-## Create static and media folders
-#mkdir "${STATIC_FILES}"
-#mkdir "${MEDIA_FILES}"
-
-
 # Set work dir
 WORKDIR /DJANGO_BASE_DIR
 
-# set environment variables
+# create the app user
+RUN addgroup -S django && adduser -S django -G django
+
+# Create static and media folders
+RUN mkdir $STATIC_FILES
+RUN mkdir $MEDIA_FILES
+
+# Buffering and bytecode
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 COPY requirements.txt .
-
 RUN python -m pip install --upgrade pip && pip install -r requirements.txt
-
 COPY . .
 
+# chown all the files to the app user
+RUN chown -R django:django DJANGO_BASE_DIR
 
+# Change to the app user
+USER django
 
-## chown all the files to the app user
-#RUN chown -R app:app $APP_HOME
-## change to the app user
-#USER app
-#sudo chmod -R +r "${STATIC_FILES}"
-#sudo chmod -R +r "${MEDIA_FILES}"
-
-#python manage.py makemigrations
-#python manage.py migrate
-#python manage.py collectstatic
+# Prepare Django to start
+CMD ["python", "manage.py", "makemigrations"]
+CMD ["python", "manage.py", "migrate"]
+CMD ["python", "manage.py", "collectstatic"]
