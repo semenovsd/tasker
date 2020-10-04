@@ -6,12 +6,12 @@ ARG DJANGO_BASE_DIR
 # Set work dir
 WORKDIR /DJANGO_BASE_DIR
 
+# create the app user
+RUN addgroup -S django && adduser -S django -G django
+
 # Create static and media folders
 RUN mkdir $STATIC_FILES
 RUN mkdir $MEDIA_FILES
-
-# create the app user
-RUN addgroup -S django && adduser -S django -G django
 
 # The enviroment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -22,7 +22,7 @@ RUN python -m pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
 
 # chown all the files to the app user
-RUN chown -R django:django /DJANGO_BASE_DIR
+RUN chown -R django:django DJANGO_BASE_DIR
 
 # Change to the app user
 USER django
