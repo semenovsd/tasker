@@ -2,6 +2,8 @@
 FROM python:3.8.6
 
 ARG DJANGO_BASE_DIR
+ARG STATIC_FILES
+ARG MEDIA_FILES
 
 # Set work dir
 WORKDIR /DJANGO_BASE_DIR
@@ -10,8 +12,8 @@ WORKDIR /DJANGO_BASE_DIR
 #RUN addgroup -S django && adduser -S django -G django
 
 # Create static and media folders
-RUN mkdir $STATIC_FILES
-RUN mkdir $MEDIA_FILES
+RUN mkdir STATIC_FILES
+RUN mkdir MEDIA_FILES
 
 # The enviroment variables
 ENV PYTHONDONTWRITEBYTECODE 1

@@ -39,6 +39,8 @@ services:
       context: ./$DJANGO_BASE_DIR
       args:
         DJANGO_BASE_DIR: $DJANGO_BASE_DIR
+        STATIC_FILES: $STATIC_FILES
+        MEDIA_FILES: $MEDIA_FILES
     command: gunicorn -k uvicorn.workers.UvicornWorker djangoproject.asgi:application --bind $WEBAPP_HOST:$WEBAPP_PORT
     volumes:
       - ./$DJANGO_BASE_DIR$STATIC_FILES:/$DJANGO_BASE_DIR$STATIC_FILES
