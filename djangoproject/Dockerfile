@@ -26,8 +26,8 @@ COPY . .
 ## chown all the files to the app user
 #RUN chown -R django:django DJANGO_BASE_DIR
 
-# Change to the app user
-USER django
+## Change to the app user
+#USER django
 
 #bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 # Prepare Django to start
